@@ -1,15 +1,18 @@
-# Provider Template
+# xplane-provider-vspherevm
 
-`upjet-provider-template` is a [Crossplane](https://crossplane.io/) provider
-template that is built using [Upjet](https://github.com/crossplane/upjet) code
-generation tools and exposes XRM-conformant managed resources for the Template
-API.
+Crossplane Provider for VMware vSphere Virtual Machines, built with [Upjet](https://github.com/crossplane/upjet) from the [terraform-provider-vsphere](https://github.com/vmware/terraform-provider-vsphere).
+
+## Managed Resources
+
+| Kind | Terraform Resource | Description |
+|------|-------------------|-------------|
+| `VirtualMachine` | `vsphere_virtual_machine` | Full VM lifecycle (create, clone, customize) |
+| `VirtualMachineSnapshot` | `vsphere_virtual_machine_snapshot` | Point-in-time VM snapshots |
+| `VirtualMachineClass` | `vsphere_virtual_machine_class` | VM classes for Supervisor clusters |
 
 ## Getting Started
 
-This template serves as a starting point for generating a new [Crossplane Provider](https://docs.crossplane.io/latest/packages/providers/) using the [`upjet`](https://github.com/crossplane/upjet) tooling. Please follow the guide linked below to generate a new Provider:
-
-https://github.com/crossplane/upjet/blob/main/docs/generating-a-provider.md
+See [docs/](docs/) for full documentation.
 
 ## Developing
 
@@ -39,4 +42,4 @@ make build
 ## Report a Bug
 
 For filing bugs, suggesting improvements, or requesting new features, please
-open an [issue](https://github.com/crossplane/upjet-provider-template/issues).
+open an [issue](https://github.com/stuttgart-things/xplane-provider-vspherevm/issues).

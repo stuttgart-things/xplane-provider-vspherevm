@@ -11,8 +11,8 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/terraform"
 
-	clusterv1beta1 "github.com/crossplane/upjet-provider-template/apis/cluster/v1beta1"
-	namespacedv1beta1 "github.com/crossplane/upjet-provider-template/apis/namespaced/v1beta1"
+	clusterv1beta1 "github.com/stuttgart-things/xplane-provider-vspherevm/apis/cluster/v1beta1"
+	namespacedv1beta1 "github.com/stuttgart-things/xplane-provider-vspherevm/apis/namespaced/v1beta1"
 )
 
 const (
@@ -21,7 +21,7 @@ const (
 	errGetProviderConfig    = "cannot get referenced ProviderConfig"
 	errTrackUsage           = "cannot track ProviderConfig usage"
 	errExtractCredentials   = "cannot extract credentials"
-	errUnmarshalCredentials = "cannot unmarshal template credentials as JSON"
+	errUnmarshalCredentials = "cannot unmarshal vsphere credentials as JSON"
 )
 
 // TerraformSetupBuilder builds Terraform a terraform.SetupFn function which
@@ -51,10 +51,12 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 		}
 
 		// Set credentials in Terraform provider configuration.
-		/*ps.Configuration = map[string]any{
-			"username": creds["username"],
-			"password": creds["password"],
-		}*/
+		ps.Configuration = map[string]any{
+			"user":                 creds["user"],
+			"password":             creds["password"],
+			"vsphere_server":       creds["server"],
+			"allow_unverified_ssl": creds["allow_unverified_ssl"],
+		}
 		return ps, nil
 	}
 }

@@ -7,17 +7,14 @@ import (
 // ExternalNameConfigs contains all external name configurations for this
 // provider.
 var ExternalNameConfigs = map[string]config.ExternalName{
-	// Import requires using a randomly generated ID from provider: nl-2e21sda
-	"null_resource": idWithStub(),
-}
+	// vsphere_virtual_machine is identified by its managed object reference ID
+	"vsphere_virtual_machine": config.IdentifierFromProvider,
 
-func idWithStub() config.ExternalName {
-	e := config.IdentifierFromProvider
-	e.GetExternalNameFn = func(tfstate map[string]any) (string, error) {
-		en, _ := config.IDAsExternalName(tfstate)
-		return en, nil
-	}
-	return e
+	// vsphere_virtual_machine_snapshot is identified by its provider ID
+	"vsphere_virtual_machine_snapshot": config.IdentifierFromProvider,
+
+	// vsphere_virtual_machine_class is identified by its provider ID
+	"vsphere_virtual_machine_class": config.IdentifierFromProvider,
 }
 
 // ExternalNameConfigurations applies all external name configs listed in the
