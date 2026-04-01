@@ -1,40 +1,36 @@
-name: hashicorp/null
+name: vmware/vsphere
 resources:
-    null_resource:
-        subCategory: ""
-        description: The null_resource resource implements the standard resource lifecycle but takes no further action. On Terraform 1.4 and later, use the terraform_data resource type https://developer.hashicorp.com/terraform/language/resources/terraform-data instead. Terraform 1.9 and later support the moved configuration block from null_resource to terraform_data. The triggers argument allows specifying an arbitrary set of values that, when changed, will cause the resource to be replaced.
-        name: null_resource
-        title: null_resource Resource - terraform-provider-null
-        examples:
-            - name: cluster
-              manifest: |-
-                {
-                  "connection": [
-                    {
-                      "host": "${element(aws_instance.cluster[*].public_ip, 0)}"
-                    }
-                  ],
-                  "provisioner": {
-                    "remote-exec": [
-                      {
-                        "inline": [
-                          "bootstrap-cluster.sh ${join(\" \",\n      aws_instance.cluster[*].private_ip)}"
-                        ]
-                      }
-                    ]
-                  },
-                  "triggers": {
-                    "cluster_instance_ids": "${join(\",\", aws_instance.cluster[*].id)}"
-                  }
-                }
-              dependencies:
-                aws_instance.cluster: |-
-                    {
-                      "ami": "ami-0dcc1e21636832c5d",
-                      "count": 3,
-                      "instance_type": "m5.large"
-                    }
+    vsphere_virtual_machine:
+        subCategory: Virtual Machine
+        description: Manages a VMware vSphere virtual machine resource.
+        name: vsphere_virtual_machine
+        title: vsphere_virtual_machine Resource - terraform-provider-vsphere
         argumentDocs:
-            id: (String) This is set to a random value at create time.
-            triggers: (Map of String) A map of arbitrary strings that, when changed, will force the null resource to be replaced, re-running any associated provisioners.
+            name: '(Required) The name of the virtual machine.'
+            resource_pool_id: '(Required) The managed object reference ID of the resource pool.'
+            datastore_id: '(Optional) The managed object reference ID of the datastore.'
+            num_cpus: '(Optional) The total number of virtual processor cores. Default: 1.'
+            memory: '(Optional) The memory size in MB. Default: 1024.'
+            guest_id: '(Optional) The guest ID for the OS type. Default: otherGuest64.'
+        importStatements:
+            - terraform import vsphere_virtual_machine.vm /dc/vm/my-vm
+    vsphere_virtual_machine_snapshot:
+        subCategory: Virtual Machine
+        description: Manages a VMware vSphere virtual machine snapshot resource.
+        name: vsphere_virtual_machine_snapshot
+        title: vsphere_virtual_machine_snapshot Resource - terraform-provider-vsphere
+        argumentDocs:
+            virtual_machine_uuid: '(Required) The virtual machine UUID.'
+            snapshot_name: '(Required) The name of the snapshot.'
+            description: '(Required) A description for the snapshot.'
+        importStatements: []
+    vsphere_virtual_machine_class:
+        subCategory: Virtual Machine
+        description: Manages a VMware vSphere virtual machine class resource for Supervisor clusters.
+        name: vsphere_virtual_machine_class
+        title: vsphere_virtual_machine_class Resource - terraform-provider-vsphere
+        argumentDocs:
+            name: '(Required) The name of the virtual machine class.'
+            cpus: '(Required) The number of CPUs.'
+            memory: '(Required) The amount of memory in MB.'
         importStatements: []

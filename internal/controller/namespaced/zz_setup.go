@@ -9,16 +9,20 @@ import (
 
 	"github.com/crossplane/upjet/v2/pkg/controller"
 
-	resource "github.com/stuttgart-things/xplane-provider-vspherevm/internal/controller/namespaced/null/resource"
 	providerconfig "github.com/stuttgart-things/xplane-provider-vspherevm/internal/controller/namespaced/providerconfig"
+	machineclass "github.com/stuttgart-things/xplane-provider-vspherevm/internal/controller/namespaced/virtual/machineclass"
+	machinesnapshot "github.com/stuttgart-things/xplane-provider-vspherevm/internal/controller/namespaced/virtual/machinesnapshot"
+	virtualmachine "github.com/stuttgart-things/xplane-provider-vspherevm/internal/controller/namespaced/virtualmachine/virtualmachine"
 )
 
 // Setup creates all controllers with the supplied logger and adds them to
 // the supplied manager.
 func Setup(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
-		resource.Setup,
 		providerconfig.Setup,
+		machineclass.Setup,
+		machinesnapshot.Setup,
+		virtualmachine.Setup,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err
@@ -31,8 +35,10 @@ func Setup(mgr ctrl.Manager, o controller.Options) error {
 // the supplied manager gated.
 func SetupGated(mgr ctrl.Manager, o controller.Options) error {
 	for _, setup := range []func(ctrl.Manager, controller.Options) error{
-		resource.SetupGated,
 		providerconfig.SetupGated,
+		machineclass.SetupGated,
+		machinesnapshot.SetupGated,
+		virtualmachine.SetupGated,
 	} {
 		if err := setup(mgr, o); err != nil {
 			return err

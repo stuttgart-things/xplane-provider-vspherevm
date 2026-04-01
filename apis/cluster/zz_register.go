@@ -10,17 +10,19 @@ package cluster
 import (
 	"k8s.io/apimachinery/pkg/runtime"
 
-	v1alpha1 "github.com/stuttgart-things/xplane-provider-vspherevm/apis/cluster/null/v1alpha1"
-	v1alpha1cluster "github.com/stuttgart-things/xplane-provider-vspherevm/apis/cluster/v1alpha1"
+	v1alpha1 "github.com/stuttgart-things/xplane-provider-vspherevm/apis/cluster/v1alpha1"
 	v1beta1 "github.com/stuttgart-things/xplane-provider-vspherevm/apis/cluster/v1beta1"
+	v1alpha1virtual "github.com/stuttgart-things/xplane-provider-vspherevm/apis/cluster/virtual/v1alpha1"
+	v1alpha1virtualmachine "github.com/stuttgart-things/xplane-provider-vspherevm/apis/cluster/virtualmachine/v1alpha1"
 )
 
 func init() {
 	// Register the types with the Scheme so the components can map objects to GroupVersionKinds and back
 	AddToSchemes = append(AddToSchemes,
 		v1alpha1.SchemeBuilder.AddToScheme,
-		v1alpha1cluster.SchemeBuilder.AddToScheme,
 		v1beta1.SchemeBuilder.AddToScheme,
+		v1alpha1virtual.SchemeBuilder.AddToScheme,
+		v1alpha1virtualmachine.SchemeBuilder.AddToScheme,
 	)
 }
 
