@@ -8,7 +8,7 @@ COPY . .
 RUN CGO_ENABLED=0 go build -o /provider ./cmd/provider
 
 # Stage 2: Runtime image with Terraform CLI and provider plugin
-FROM alpine:3.23.2
+FROM alpine:3.23.3
 
 RUN apk --no-cache add ca-certificates bash
 
