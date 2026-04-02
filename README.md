@@ -14,14 +14,22 @@ Namespaced variants use `*.vspherevm.m.stuttgart-things.com` API groups.
 
 ## Install
 
-```yaml
+```bash
+# Install latest
+kubectl apply -f https://raw.githubusercontent.com/stuttgart-things/xplane-provider-vspherevm/main/examples/install.yaml
+
+# Or apply manually with a specific version
+kubectl apply -f - <<'EOF'
 apiVersion: pkg.crossplane.io/v1
 kind: Provider
 metadata:
   name: xplane-provider-vspherevm
 spec:
-  package: ghcr.io/stuttgart-things/xplane-provider-vspherevm-xpkg:v0.2.1
+  package: ghcr.io/stuttgart-things/xplane-provider-vspherevm-xpkg:latest
+EOF
 ```
+
+> **Pinned version:** See [examples/install.yaml](examples/install.yaml) for the latest tested release version.
 
 ## Configure Credentials
 
