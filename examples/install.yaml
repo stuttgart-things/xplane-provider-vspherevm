@@ -3,4 +3,5 @@ kind: Provider
 metadata:
   name: xplane-provider-vspherevm
 spec:
-  package: ghcr.io/stuttgart-things/xplane-provider-vspherevm-xpkg:latest
+  package: ghcr.io/stuttgart-things/xplane-provider-vspherevm-xpkg:v0.6.0
+  skipDependencyResolution: true
