@@ -6,7 +6,9 @@ import (
 
 	ujconfig "github.com/crossplane/upjet/v2/pkg/config"
 
+	virtualCluster "github.com/stuttgart-things/xplane-provider-vspherevm/config/cluster/virtual"
 	vmCluster "github.com/stuttgart-things/xplane-provider-vspherevm/config/cluster/virtualmachine"
+	virtualNamespaced "github.com/stuttgart-things/xplane-provider-vspherevm/config/namespaced/virtual"
 	vmNamespaced "github.com/stuttgart-things/xplane-provider-vspherevm/config/namespaced/virtualmachine"
 )
 
@@ -32,8 +34,8 @@ func GetProvider() *ujconfig.Provider {
 		))
 
 	for _, configure := range []func(provider *ujconfig.Provider){
-		// add custom config functions
 		vmCluster.Configure,
+		virtualCluster.Configure,
 	} {
 		configure(pc)
 	}
@@ -56,8 +58,8 @@ func GetProviderNamespaced() *ujconfig.Provider {
 		}))
 
 	for _, configure := range []func(provider *ujconfig.Provider){
-		// add custom config functions
 		vmNamespaced.Configure,
+		virtualNamespaced.Configure,
 	} {
 		configure(pc)
 	}

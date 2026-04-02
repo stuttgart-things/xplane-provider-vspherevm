@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.19.0
+    controller-gen.kubebuilder.io/version: v0.20.1
   name: virtualmachines.virtualmachine.vspherevm.stuttgart-things.com
 spec:
   group: virtualmachine.vspherevm.stuttgart-things.com
@@ -34,8 +34,8 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: VirtualMachine is the Schema for the VirtualMachines API. <no
-          value>
+        description: VirtualMachine is the Schema for the VirtualMachines API. Manages
+          a VMware vSphere virtual machine resource.
         properties:
           apiVersion:
             description: |-
@@ -74,8 +74,9 @@ spec:
               forProvider:
                 properties:
                   alternateGuestName:
-                    description: The guest name for the operating system when guest_id
-                      is otherGuest or otherGuest64.
+                    description: |-
+                      The name of the virtual machine.
+                      The guest name for the operating system when guest_id is otherGuest or otherGuest64.
                     type: string
                   annotation:
                     description: User-provided description of the virtual machine.
@@ -103,7 +104,9 @@ spec:
                             to a remote client device
                           type: boolean
                         datastoreId:
-                          description: The datastore ID the ISO is located on.
+                          description: |-
+                            The managed object reference ID of the datastore.
+                            The datastore ID the ISO is located on.
                           type: string
                         path:
                           description: The path to the ISO file on the datastore.
@@ -172,7 +175,9 @@ spec:
                                         machine.
                                       type: string
                                     hostName:
-                                      description: The hostname for this virtual machine.
+                                      description: |-
+                                        The name of the virtual machine.
+                                        The hostname for this virtual machine.
                                       type: string
                                     hwClockUtc:
                                       description: Specifies whether or not the hardware
@@ -278,8 +283,9 @@ spec:
                                         when auto_logon is true.
                                       type: number
                                     computerName:
-                                      description: The host name for this virtual
-                                        machine.
+                                      description: |-
+                                        The name of the virtual machine.
+                                        The host name for this virtual machine.
                                       type: string
                                     domainAdminPasswordSecretRef:
                                       description: The password of the domain administrator
@@ -310,16 +316,18 @@ spec:
                                         the virtual machine belongs.
                                       type: string
                                     fullName:
-                                      description: The full name of the user of this
-                                        virtual machine.
+                                      description: |-
+                                        The name of the virtual machine.
+                                        The full name of the user of this virtual machine.
                                       type: string
                                     joinDomain:
                                       description: The domain that the virtual machine
                                         should join.
                                       type: string
                                     organizationName:
-                                      description: The organization name this virtual
-                                        machine is being installed for.
+                                      description: |-
+                                        The name of the virtual machine.
+                                        The organization name this virtual machine is being installed for.
                                       type: string
                                     productKeySecretRef:
                                       description: The product key for this virtual
@@ -446,9 +454,9 @@ spec:
                       machine in.
                     type: string
                   datastoreId:
-                    description: The ID of the virtual machine's datastore. The virtual
-                      machine configuration is placed here, along with any virtual
-                      disks that are created without datastores.
+                    description: |-
+                      The managed object reference ID of the datastore.
+                      The ID of the virtual machine's datastore. The virtual machine configuration is placed here, along with any virtual disks that are created without datastores.
                     type: string
                   disk:
                     description: A specification for a virtual disk device on this
@@ -464,8 +472,9 @@ spec:
                             to. Must be 'scsi', 'sata', 'nvme', or 'ide'.
                           type: string
                         datastoreId:
-                          description: The datastore ID for this virtual disk, if
-                            different than the virtual machine.
+                          description: |-
+                            The managed object reference ID of the datastore.
+                            The datastore ID for this virtual disk, if different than the virtual machine.
                           type: string
                         diskMode:
                           description: The mode of this this virtual disk for purposes
@@ -572,7 +581,9 @@ spec:
                       if a graceful guest shutdown failed for a necessary operation.
                     type: boolean
                   guestId:
-                    description: The guest ID for the operating system.
+                    description: |-
+                      The guest ID for the OS type. Default: otherGuest64.
+                      The guest ID for the operating system.
                     type: string
                   hardwareVersion:
                     description: 'The hardware version for the virtual machine. Allows
@@ -605,7 +616,9 @@ spec:
                       be one of low, normal, medium, or high.
                     type: string
                   memory:
-                    description: The size of the virtual machine's memory, in MB.
+                    description: |-
+                      The memory size in MB. Default: 1024.
+                      The size of the virtual machine's memory, in MB.
                     type: number
                   memoryHotAddEnabled:
                     description: Allow memory to be added to this virtual machine
@@ -641,7 +654,9 @@ spec:
                       operation to complete before failing.
                     type: number
                   name:
-                    description: The name of this virtual machine.
+                    description: |-
+                      The name of the virtual machine.
+                      The name of this virtual machine.
                     type: string
                   nestedHvEnabled:
                     description: Enable nested hardware virtualization on this virtual
@@ -699,8 +714,9 @@ spec:
                       num_cpus must be evenly divisible by this value.
                     type: number
                   numCpus:
-                    description: The number of virtual processors to assign to this
-                      virtual machine.
+                    description: |-
+                      The total number of virtual processor cores. Default: 1.
+                      The number of virtual processors to assign to this virtual machine.
                     type: number
                   nvmeControllerCount:
                     description: This directly affects the amount of disks you can
@@ -765,8 +781,9 @@ spec:
                     description: Triggers replacement of resource whenever it changes.
                     type: string
                   resourcePoolId:
-                    description: The ID of a resource pool to put the virtual machine
-                      in.
+                    description: |-
+                      The managed object reference ID of the resource pool.
+                      The ID of a resource pool to put the virtual machine in.
                     type: string
                   runToolsScriptsAfterPowerOn:
                     description: Enable the run of scripts after virtual machine power-on
@@ -905,8 +922,9 @@ spec:
                   autoscaler.
                 properties:
                   alternateGuestName:
-                    description: The guest name for the operating system when guest_id
-                      is otherGuest or otherGuest64.
+                    description: |-
+                      The name of the virtual machine.
+                      The guest name for the operating system when guest_id is otherGuest or otherGuest64.
                     type: string
                   annotation:
                     description: User-provided description of the virtual machine.
@@ -934,7 +952,9 @@ spec:
                             to a remote client device
                           type: boolean
                         datastoreId:
-                          description: The datastore ID the ISO is located on.
+                          description: |-
+                            The managed object reference ID of the datastore.
+                            The datastore ID the ISO is located on.
                           type: string
                         path:
                           description: The path to the ISO file on the datastore.
@@ -1003,7 +1023,9 @@ spec:
                                         machine.
                                       type: string
                                     hostName:
-                                      description: The hostname for this virtual machine.
+                                      description: |-
+                                        The name of the virtual machine.
+                                        The hostname for this virtual machine.
                                       type: string
                                     hwClockUtc:
                                       description: Specifies whether or not the hardware
@@ -1109,8 +1131,9 @@ spec:
                                         when auto_logon is true.
                                       type: number
                                     computerName:
-                                      description: The host name for this virtual
-                                        machine.
+                                      description: |-
+                                        The name of the virtual machine.
+                                        The host name for this virtual machine.
                                       type: string
                                     domainAdminPasswordSecretRef:
                                       description: The password of the domain administrator
@@ -1141,16 +1164,18 @@ spec:
                                         the virtual machine belongs.
                                       type: string
                                     fullName:
-                                      description: The full name of the user of this
-                                        virtual machine.
+                                      description: |-
+                                        The name of the virtual machine.
+                                        The full name of the user of this virtual machine.
                                       type: string
                                     joinDomain:
                                       description: The domain that the virtual machine
                                         should join.
                                       type: string
                                     organizationName:
-                                      description: The organization name this virtual
-                                        machine is being installed for.
+                                      description: |-
+                                        The name of the virtual machine.
+                                        The organization name this virtual machine is being installed for.
                                       type: string
                                     productKeySecretRef:
                                       description: The product key for this virtual
@@ -1277,9 +1302,9 @@ spec:
                       machine in.
                     type: string
                   datastoreId:
-                    description: The ID of the virtual machine's datastore. The virtual
-                      machine configuration is placed here, along with any virtual
-                      disks that are created without datastores.
+                    description: |-
+                      The managed object reference ID of the datastore.
+                      The ID of the virtual machine's datastore. The virtual machine configuration is placed here, along with any virtual disks that are created without datastores.
                     type: string
                   disk:
                     description: A specification for a virtual disk device on this
@@ -1295,8 +1320,9 @@ spec:
                             to. Must be 'scsi', 'sata', 'nvme', or 'ide'.
                           type: string
                         datastoreId:
-                          description: The datastore ID for this virtual disk, if
-                            different than the virtual machine.
+                          description: |-
+                            The managed object reference ID of the datastore.
+                            The datastore ID for this virtual disk, if different than the virtual machine.
                           type: string
                         diskMode:
                           description: The mode of this this virtual disk for purposes
@@ -1403,7 +1429,9 @@ spec:
                       if a graceful guest shutdown failed for a necessary operation.
                     type: boolean
                   guestId:
-                    description: The guest ID for the operating system.
+                    description: |-
+                      The guest ID for the OS type. Default: otherGuest64.
+                      The guest ID for the operating system.
                     type: string
                   hardwareVersion:
                     description: 'The hardware version for the virtual machine. Allows
@@ -1436,7 +1464,9 @@ spec:
                       be one of low, normal, medium, or high.
                     type: string
                   memory:
-                    description: The size of the virtual machine's memory, in MB.
+                    description: |-
+                      The memory size in MB. Default: 1024.
+                      The size of the virtual machine's memory, in MB.
                     type: number
                   memoryHotAddEnabled:
                     description: Allow memory to be added to this virtual machine
@@ -1472,7 +1502,9 @@ spec:
                       operation to complete before failing.
                     type: number
                   name:
-                    description: The name of this virtual machine.
+                    description: |-
+                      The name of the virtual machine.
+                      The name of this virtual machine.
                     type: string
                   nestedHvEnabled:
                     description: Enable nested hardware virtualization on this virtual
@@ -1530,8 +1562,9 @@ spec:
                       num_cpus must be evenly divisible by this value.
                     type: number
                   numCpus:
-                    description: The number of virtual processors to assign to this
-                      virtual machine.
+                    description: |-
+                      The total number of virtual processor cores. Default: 1.
+                      The number of virtual processors to assign to this virtual machine.
                     type: number
                   nvmeControllerCount:
                     description: This directly affects the amount of disks you can
@@ -1596,8 +1629,9 @@ spec:
                     description: Triggers replacement of resource whenever it changes.
                     type: string
                   resourcePoolId:
-                    description: The ID of a resource pool to put the virtual machine
-                      in.
+                    description: |-
+                      The managed object reference ID of the resource pool.
+                      The ID of a resource pool to put the virtual machine in.
                     type: string
                   runToolsScriptsAfterPowerOn:
                     description: Enable the run of scripts after virtual machine power-on
@@ -1823,8 +1857,9 @@ spec:
               atProvider:
                 properties:
                   alternateGuestName:
-                    description: The guest name for the operating system when guest_id
-                      is otherGuest or otherGuest64.
+                    description: |-
+                      The name of the virtual machine.
+                      The guest name for the operating system when guest_id is otherGuest or otherGuest64.
                     type: string
                   annotation:
                     description: User-provided description of the virtual machine.
@@ -1852,7 +1887,9 @@ spec:
                             to a remote client device
                           type: boolean
                         datastoreId:
-                          description: The datastore ID the ISO is located on.
+                          description: |-
+                            The managed object reference ID of the datastore.
+                            The datastore ID the ISO is located on.
                           type: string
                         deviceAddress:
                           description: 'The internally-computed address of this device,
@@ -1935,7 +1972,9 @@ spec:
                                         machine.
                                       type: string
                                     hostName:
-                                      description: The hostname for this virtual machine.
+                                      description: |-
+                                        The name of the virtual machine.
+                                        The hostname for this virtual machine.
                                       type: string
                                     hwClockUtc:
                                       description: Specifies whether or not the hardware
@@ -2005,8 +2044,9 @@ spec:
                                         when auto_logon is true.
                                       type: number
                                     computerName:
-                                      description: The host name for this virtual
-                                        machine.
+                                      description: |-
+                                        The name of the virtual machine.
+                                        The host name for this virtual machine.
                                       type: string
                                     domainAdminUser:
                                       description: The user account of the domain
@@ -2019,16 +2059,18 @@ spec:
                                         the virtual machine belongs.
                                       type: string
                                     fullName:
-                                      description: The full name of the user of this
-                                        virtual machine.
+                                      description: |-
+                                        The name of the virtual machine.
+                                        The full name of the user of this virtual machine.
                                       type: string
                                     joinDomain:
                                       description: The domain that the virtual machine
                                         should join.
                                       type: string
                                     organizationName:
-                                      description: The organization name this virtual
-                                        machine is being installed for.
+                                      description: |-
+                                        The name of the virtual machine.
+                                        The organization name this virtual machine is being installed for.
                                       type: string
                                     runOnceCommandList:
                                       description: A list of commands to run at first
@@ -2119,9 +2161,9 @@ spec:
                       machine in.
                     type: string
                   datastoreId:
-                    description: The ID of the virtual machine's datastore. The virtual
-                      machine configuration is placed here, along with any virtual
-                      disks that are created without datastores.
+                    description: |-
+                      The managed object reference ID of the datastore.
+                      The ID of the virtual machine's datastore. The virtual machine configuration is placed here, along with any virtual disks that are created without datastores.
                     type: string
                   defaultIpAddress:
                     type: string
@@ -2139,8 +2181,9 @@ spec:
                             to. Must be 'scsi', 'sata', 'nvme', or 'ide'.
                           type: string
                         datastoreId:
-                          description: The datastore ID for this virtual disk, if
-                            different than the virtual machine.
+                          description: |-
+                            The managed object reference ID of the datastore.
+                            The datastore ID for this virtual disk, if different than the virtual machine.
                           type: string
                         deviceAddress:
                           description: 'The internally-computed address of this device,
@@ -2259,7 +2302,9 @@ spec:
                       if a graceful guest shutdown failed for a necessary operation.
                     type: boolean
                   guestId:
-                    description: The guest ID for the operating system.
+                    description: |-
+                      The guest ID for the OS type. Default: otherGuest64.
+                      The guest ID for the operating system.
                     type: string
                   guestIpAddresses:
                     description: The current list of IP addresses on this virtual
@@ -2304,7 +2349,9 @@ spec:
                       be one of low, normal, medium, or high.
                     type: string
                   memory:
-                    description: The size of the virtual machine's memory, in MB.
+                    description: |-
+                      The memory size in MB. Default: 1024.
+                      The size of the virtual machine's memory, in MB.
                     type: number
                   memoryHotAddEnabled:
                     description: Allow memory to be added to this virtual machine
@@ -2343,7 +2390,9 @@ spec:
                     description: The machine object ID from VMware vSphere.
                     type: string
                   name:
-                    description: The name of this virtual machine.
+                    description: |-
+                      The name of the virtual machine.
+                      The name of this virtual machine.
                     type: string
                   nestedHvEnabled:
                     description: Enable nested hardware virtualization on this virtual
@@ -2410,8 +2459,9 @@ spec:
                       num_cpus must be evenly divisible by this value.
                     type: number
                   numCpus:
-                    description: The number of virtual processors to assign to this
-                      virtual machine.
+                    description: |-
+                      The total number of virtual processor cores. Default: 1.
+                      The number of virtual processors to assign to this virtual machine.
                     type: number
                   nvmeControllerCount:
                     description: This directly affects the amount of disks you can
@@ -2481,8 +2531,9 @@ spec:
                     description: Triggers replacement of resource whenever it changes.
                     type: string
                   resourcePoolId:
-                    description: The ID of a resource pool to put the virtual machine
-                      in.
+                    description: |-
+                      The managed object reference ID of the resource pool.
+                      The ID of a resource pool to put the virtual machine in.
                     type: string
                   runToolsScriptsAfterPowerOn:
                     description: Enable the run of scripts after virtual machine power-on

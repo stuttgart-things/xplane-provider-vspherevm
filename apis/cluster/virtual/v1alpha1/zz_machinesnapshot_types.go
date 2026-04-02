@@ -16,6 +16,7 @@ import (
 type MachineSnapshotInitParameters struct {
 	Consolidate *bool `json:"consolidate,omitempty" tf:"consolidate,omitempty"`
 
+	// A description for the snapshot.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	Memory *bool `json:"memory,omitempty" tf:"memory,omitempty"`
@@ -24,14 +25,26 @@ type MachineSnapshotInitParameters struct {
 
 	RemoveChildren *bool `json:"removeChildren,omitempty" tf:"remove_children,omitempty"`
 
+	// The name of the snapshot.
 	SnapshotName *string `json:"snapshotName,omitempty" tf:"snapshot_name,omitempty"`
 
+	// The virtual machine UUID.
+	// +crossplane:generate:reference:type=github.com/stuttgart-things/xplane-provider-vspherevm/apis/cluster/virtualmachine/v1alpha1.VirtualMachine
 	VirtualMachineUUID *string `json:"virtualMachineUuid,omitempty" tf:"virtual_machine_uuid,omitempty"`
+
+	// Reference to a VirtualMachine in virtualmachine to populate virtualMachineUuid.
+	// +kubebuilder:validation:Optional
+	VirtualMachineUUIDRef *v1.Reference `json:"virtualMachineUuidRef,omitempty" tf:"-"`
+
+	// Selector for a VirtualMachine in virtualmachine to populate virtualMachineUuid.
+	// +kubebuilder:validation:Optional
+	VirtualMachineUUIDSelector *v1.Selector `json:"virtualMachineUuidSelector,omitempty" tf:"-"`
 }
 
 type MachineSnapshotObservation struct {
 	Consolidate *bool `json:"consolidate,omitempty" tf:"consolidate,omitempty"`
 
+	// A description for the snapshot.
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
@@ -42,8 +55,10 @@ type MachineSnapshotObservation struct {
 
 	RemoveChildren *bool `json:"removeChildren,omitempty" tf:"remove_children,omitempty"`
 
+	// The name of the snapshot.
 	SnapshotName *string `json:"snapshotName,omitempty" tf:"snapshot_name,omitempty"`
 
+	// The virtual machine UUID.
 	VirtualMachineUUID *string `json:"virtualMachineUuid,omitempty" tf:"virtual_machine_uuid,omitempty"`
 }
 
@@ -52,6 +67,7 @@ type MachineSnapshotParameters struct {
 	// +kubebuilder:validation:Optional
 	Consolidate *bool `json:"consolidate,omitempty" tf:"consolidate,omitempty"`
 
+	// A description for the snapshot.
 	// +kubebuilder:validation:Optional
 	Description *string `json:"description,omitempty" tf:"description,omitempty"`
 
@@ -64,11 +80,22 @@ type MachineSnapshotParameters struct {
 	// +kubebuilder:validation:Optional
 	RemoveChildren *bool `json:"removeChildren,omitempty" tf:"remove_children,omitempty"`
 
+	// The name of the snapshot.
 	// +kubebuilder:validation:Optional
 	SnapshotName *string `json:"snapshotName,omitempty" tf:"snapshot_name,omitempty"`
 
+	// The virtual machine UUID.
+	// +crossplane:generate:reference:type=github.com/stuttgart-things/xplane-provider-vspherevm/apis/cluster/virtualmachine/v1alpha1.VirtualMachine
 	// +kubebuilder:validation:Optional
 	VirtualMachineUUID *string `json:"virtualMachineUuid,omitempty" tf:"virtual_machine_uuid,omitempty"`
+
+	// Reference to a VirtualMachine in virtualmachine to populate virtualMachineUuid.
+	// +kubebuilder:validation:Optional
+	VirtualMachineUUIDRef *v1.Reference `json:"virtualMachineUuidRef,omitempty" tf:"-"`
+
+	// Selector for a VirtualMachine in virtualmachine to populate virtualMachineUuid.
+	// +kubebuilder:validation:Optional
+	VirtualMachineUUIDSelector *v1.Selector `json:"virtualMachineUuidSelector,omitempty" tf:"-"`
 }
 
 // MachineSnapshotSpec defines the desired state of MachineSnapshot
@@ -98,7 +125,7 @@ type MachineSnapshotStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// MachineSnapshot is the Schema for the MachineSnapshots API. <no value>
+// MachineSnapshot is the Schema for the MachineSnapshots API. Manages a VMware vSphere virtual machine snapshot resource.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
@@ -111,7 +138,6 @@ type MachineSnapshot struct {
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.memory) || (has(self.initProvider) && has(self.initProvider.memory))",message="spec.forProvider.memory is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.quiesce) || (has(self.initProvider) && has(self.initProvider.quiesce))",message="spec.forProvider.quiesce is a required parameter"
 	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.snapshotName) || (has(self.initProvider) && has(self.initProvider.snapshotName))",message="spec.forProvider.snapshotName is a required parameter"
-	// +kubebuilder:validation:XValidation:rule="!('*' in self.managementPolicies || 'Create' in self.managementPolicies || 'Update' in self.managementPolicies) || has(self.forProvider.virtualMachineUuid) || (has(self.initProvider) && has(self.initProvider.virtualMachineUuid))",message="spec.forProvider.virtualMachineUuid is a required parameter"
 	Spec   MachineSnapshotSpec   `json:"spec"`
 	Status MachineSnapshotStatus `json:"status,omitempty"`
 }
