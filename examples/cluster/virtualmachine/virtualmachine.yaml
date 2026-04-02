@@ -13,7 +13,8 @@ spec:
     networkInterface:
       - networkId: ${NETWORK_ID}
     disk:
-      - size: 40
+      - label: disk0
+        size: 40
         thinProvisioned: true
   providerConfigRef:
     name: default

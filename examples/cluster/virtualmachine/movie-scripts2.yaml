@@ -1,0 +1,26 @@
+---
+apiVersion: virtualmachine.vspherevm.stuttgart-things.com/v1alpha1
+kind: VirtualMachine
+metadata:
+  name: movie-scripts5
+spec:
+  forProvider:
+    name: movie-scripts5
+    resourcePoolId: resgroup-481           # /LabUL/host/Cluster-V6.7/Resources
+    datastoreId: datastore-255             # /LabUL/datastore/UL-ESX-SAS-02
+    numCpus: 8
+    memory: 8192
+    guestId: ubuntu64Guest
+    firmware: bios
+    folder: stuttgart-things/testing
+    annotation: "VSPHERE-VM BUILD w/ CROSSPLANE FOR STUTTGART-THINGS"
+    clone:
+      - templateUuid: 423483d0-5dd4-def9-5c87-94c0f513bab4  # sthings-u24
+    networkInterface:
+      - networkId: network-263               # /LabUL/network/LAB-10.31.103
+    disk:
+      - label: disk0
+        size: 96
+        thinProvisioned: true
+  providerConfigRef:
+    name: default

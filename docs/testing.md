@@ -72,26 +72,30 @@ EOF
 
 ### 4. Get vSphere resource IDs
 
-You need managed object reference IDs for resource pool, datastore, and network. Use `govc` or the vSphere UI:
+You need managed object reference IDs for resource pool, datastore, network, and template UUID. Use `govc` or the vSphere UI:
 
 ```bash
 # Install govc if needed: https://github.com/vmware/govmomi/releases
-export GOVC_URL=https://vcenter.example.com/sdk
+export GOVC_URL=https://<VCENTER_FQDN_OR_IP>/sdk
 export GOVC_USERNAME=administrator@vsphere.local
 export GOVC_PASSWORD=<password>
 export GOVC_INSECURE=true
 
-# List resource pools
-govc find / -type p
-govc pool.info /DC/host/Cluster/Resources | grep Path
+# Resource Pool ID
+govc pool.info -json /LabUL/host/Cluster-V6.7/Resources | jq -r '.resourcePools[0].self.value'
+# → e.g. resgroup-481
 
-# List datastores
-govc find / -type s
-govc datastore.info <datastore-name>
+# Datastore ID
+govc datastore.info -json /LabUL/datastore/UL-ESX-SAS-02 | jq -r '.datastores[0].self.value'
+# → e.g. datastore-255
 
-# List networks
-govc find / -type n
-govc net.info <network-name>
+# Network ID (list all networks with their MOIDs)
+govc ls -l -I /LabUL/network/
+# → e.g. network-263  /LabUL/network/LAB-10.31.103
+
+# Template UUID
+govc vm.info -json <template-name> | jq -r '.virtualMachines[0].config.uuid'
+# → e.g. 423483d0-5dd4-def9-5c87-94c0f513bab4
 ```
 
 ### 5. Create a test VirtualMachine
