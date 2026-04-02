@@ -57,6 +57,15 @@ func TerraformSetupBuilder(version, providerSource, providerVersion string) terr
 			"vsphere_server":       creds["server"],
 			"allow_unverified_ssl": creds["allow_unverified_ssl"],
 		}
+
+		// Optional fields
+		if v, ok := creds["api_timeout"]; ok {
+			ps.Configuration["api_timeout"] = v
+		}
+		if v, ok := creds["persist_session"]; ok {
+			ps.Configuration["persist_session"] = v
+		}
+
 		return ps, nil
 	}
 }
