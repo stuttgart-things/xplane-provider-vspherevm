@@ -85,8 +85,8 @@ func toSharedPCSpec(pc *clusterv1beta1.ProviderConfig) (*namespacedv1beta1.Provi
 }
 
 func resolveProviderConfig(ctx context.Context, crClient client.Client, mg resource.Managed) (*namespacedv1beta1.ProviderConfigSpec, error) {
-	switch managed := mg.(type) { //nolint:staticcheck // LegacyManaged needed for cluster-scoped resources
-	case resource.LegacyManaged:
+	switch managed := mg.(type) {
+	case resource.LegacyManaged: //nolint:staticcheck // LegacyManaged needed for cluster-scoped resources
 		return resolveLegacy(ctx, crClient, managed)
 	case resource.ModernManaged:
 		return resolveModern(ctx, crClient, managed)
