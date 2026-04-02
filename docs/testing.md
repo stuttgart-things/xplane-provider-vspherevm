@@ -1,6 +1,149 @@
 # Testing
 
-## Kind Cluster Setup
+## Prerequisites
+
+- Kubernetes cluster (Kind, k3s, or any cluster)
+- [Crossplane](https://crossplane.io) installed
+- vSphere/vCenter access with VM creation permissions
+- `kubectl` configured
+
+## Quick Start: Deploy and Test
+
+### 1. Install Crossplane
+
+```bash
+helm repo add crossplane https://charts.crossplane.io/stable
+helm install crossplane crossplane/crossplane \
+  --namespace crossplane-system --create-namespace --wait
+```
+
+### 2. Install the provider
+
+```bash
+kubectl apply -f https://raw.githubusercontent.com/stuttgart-things/xplane-provider-vspherevm/main/examples/install.yaml
+```
+
+Wait for the provider to become healthy:
+
+```bash
+kubectl get providers xplane-provider-vspherevm -w
+# NAME                         INSTALLED   HEALTHY   PACKAGE                                                              AGE
+# xplane-provider-vspherevm    True        True      ghcr.io/stuttgart-things/xplane-provider-vspherevm-xpkg:latest       30s
+```
+
+Verify CRDs are registered (11 total):
+
+```bash
+kubectl get crds | grep vspherevm
+```
+
+### 3. Configure vSphere credentials
+
+```bash
+kubectl apply -f - <<'EOF'
+apiVersion: v1
+kind: Secret
+metadata:
+  name: vsphere-creds
+  namespace: crossplane-system
+type: Opaque
+stringData:
+  credentials: |
+    {
+      "user": "administrator@vsphere.local",
+      "password": "<VSPHERE_PASSWORD>",
+      "server": "<VCENTER_FQDN_OR_IP>",
+      "allow_unverified_ssl": "true"
+    }
+---
+apiVersion: vspherevm.stuttgart-things.com/v1beta1
+kind: ProviderConfig
+metadata:
+  name: default
+spec:
+  credentials:
+    source: Secret
+    secretRef:
+      name: vsphere-creds
+      namespace: crossplane-system
+      key: credentials
+EOF
+```
+
+### 4. Get vSphere resource IDs
+
+You need managed object reference IDs for resource pool, datastore, and network. Use `govc` or the vSphere UI:
+
+```bash
+# Install govc if needed: https://github.com/vmware/govmomi/releases
+export GOVC_URL=https://vcenter.example.com/sdk
+export GOVC_USERNAME=administrator@vsphere.local
+export GOVC_PASSWORD=<password>
+export GOVC_INSECURE=true
+
+# List resource pools
+govc find / -type p
+govc pool.info /DC/host/Cluster/Resources | grep Path
+
+# List datastores
+govc find / -type s
+govc datastore.info <datastore-name>
+
+# List networks
+govc find / -type n
+govc net.info <network-name>
+```
+
+### 5. Create a test VirtualMachine
+
+```bash
+kubectl apply -f - <<'EOF'
+apiVersion: virtualmachine.vspherevm.stuttgart-things.com/v1alpha1
+kind: VirtualMachine
+metadata:
+  name: test-vm
+spec:
+  forProvider:
+    name: crossplane-test-vm
+    resourcePoolId: "<RESOURCE_POOL_MOID>"
+    datastoreId: "<DATASTORE_MOID>"
+    numCpus: 2
+    memory: 4096
+    guestId: ubuntu64Guest
+    networkInterface:
+      - networkId: "<NETWORK_MOID>"
+    disk:
+      - size: 40
+        thinProvisioned: true
+  providerConfigRef:
+    name: default
+EOF
+```
+
+### 6. Verify
+
+```bash
+# VirtualMachine should become Ready + Synced
+kubectl get virtualmachine test-vm -w
+
+# Check events for details
+kubectl describe virtualmachine test-vm
+
+# Check provider logs
+kubectl logs -n crossplane-system -l pkg.crossplane.io/revision -c package-runtime --tail=50
+```
+
+### 7. Cleanup
+
+```bash
+kubectl delete virtualmachine test-vm
+# Wait for the VM to be deleted from vSphere, then remove the provider
+kubectl delete provider xplane-provider-vspherevm
+```
+
+---
+
+## Kind Cluster Setup (detailed)
 
 ### 1. Create a Kind cluster
 
@@ -57,107 +200,22 @@ dagger call -m github.com/stuttgart-things/dagger/helm@v0.57.0 \
   --progress plain -vv
 ```
 
-### 4. Install CRDs and run the provider
+---
+
+## Local Development Run
+
+Run the provider locally against a cluster (useful for debugging):
 
 ```bash
+# Install CRDs first
 kubectl apply -R -f package/crds
 
+# Run the provider
 go run cmd/provider/main.go \
   --debug \
   --terraform-version=1.5.7 \
   --terraform-provider-source=vmware/vsphere \
   --terraform-provider-version=2.15.0
-```
-
-## End-to-End Test with Released Provider Package
-
-After the cluster and Crossplane are ready, install the released provider xpkg and test.
-
-### 1. Install the provider
-
-```yaml
-apiVersion: pkg.crossplane.io/v1
-kind: Provider
-metadata:
-  name: xplane-provider-vspherevm
-spec:
-  package: ghcr.io/stuttgart-things/xplane-provider-vspherevm-xpkg:v0.1.0
-```
-
-```bash
-kubectl get providers xplane-provider-vspherevm
-# Wait until INSTALLED=True and HEALTHY=True
-```
-
-### 2. Create ProviderConfig with vSphere credentials
-
-```bash
-kubectl apply -f - <<'EOF'
-apiVersion: v1
-kind: Secret
-metadata:
-  name: vsphere-credentials
-  namespace: crossplane-system
-stringData:
-  credentials: |
-    {
-      "user": "administrator@vsphere.local",
-      "password": "your-password",
-      "server": "vcenter.example.com",
-      "allow_unverified_ssl": "true"
-    }
----
-apiVersion: vspherevm.stuttgart-things.com/v1beta1
-kind: ProviderConfig
-metadata:
-  name: default
-spec:
-  credentials:
-    source: Secret
-    secretRef:
-      name: vsphere-credentials
-      namespace: crossplane-system
-      key: credentials
-EOF
-```
-
-### 3. Create a test VirtualMachine
-
-```bash
-kubectl apply -f - <<'EOF'
-apiVersion: virtualmachine.vspherevm.stuttgart-things.com/v1alpha1
-kind: VirtualMachine
-metadata:
-  name: test-vm
-spec:
-  forProvider:
-    name: test-vm
-    resourcePoolId: ${RESOURCE_POOL_ID}
-    datastoreId: ${DATASTORE_ID}
-    numCpus: 2
-    memory: 2048
-    guestId: ubuntu64Guest
-    networkInterface:
-      - networkId: ${NETWORK_ID}
-    disk:
-      - size: 20
-        thinProvisioned: true
-  providerConfigRef:
-    name: default
-EOF
-```
-
-### 4. Verify
-
-```bash
-# VirtualMachine should be Ready + Synced
-kubectl get virtualmachine test-vm
-
-# Check events for details
-kubectl describe virtualmachine test-vm
-
-# Check provider logs
-kubectl logs -n crossplane-system -l pkg.crossplane.io/revision -c package-runtime --tail=50
 ```
 
 ## Unit Tests
@@ -192,5 +250,9 @@ kubectl apply --dry-run=server -R -f package/crds/
 
 | File | Description |
 |------|-------------|
-| `examples/cluster/providerconfig/providerconfig.yaml` | ProviderConfig with credentials |
-| `examples/install.yaml` | Provider installation manifest |
+| `examples/install.yaml` | Provider installation manifest (latest) |
+| `examples/cluster/providerconfig/secret.yaml` | Example credentials Secret |
+| `examples/cluster/providerconfig/providerconfig.yaml` | ProviderConfig |
+| `examples/cluster/virtualmachine/virtualmachine.yaml` | VirtualMachine example |
+| `examples/cluster/virtual/machinesnapshot.yaml` | MachineSnapshot example |
+| `examples/cluster/virtual/machineclass.yaml` | MachineClass example |
