@@ -1,0 +1,13 @@
+apiVersion: virtual.vspherevm.stuttgart-things.com/v1alpha1
+kind: MachineClass
+metadata:
+  name: example-class
+spec:
+  forProvider:
+    name: small-vm
+    cpus: 2
+    memory: 4096
+    cpuReservation: 0
+    memoryReservation: 0
+  providerConfigRef:
+    name: default

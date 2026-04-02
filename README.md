@@ -1,45 +1,97 @@
 # xplane-provider-vspherevm
 
-Crossplane Provider for VMware vSphere Virtual Machines, built with [Upjet](https://github.com/crossplane/upjet) from the [terraform-provider-vsphere](https://github.com/vmware/terraform-provider-vsphere).
+Crossplane Provider for VMware vSphere Virtual Machines, built with [Upjet](https://github.com/crossplane/upjet) from [terraform-provider-vsphere](https://github.com/vmware/terraform-provider-vsphere) (v2.15.0).
 
 ## Managed Resources
 
-| Kind | Terraform Resource | Description |
-|------|-------------------|-------------|
-| `VirtualMachine` | `vsphere_virtual_machine` | Full VM lifecycle (create, clone, customize) |
-| `VirtualMachineSnapshot` | `vsphere_virtual_machine_snapshot` | Point-in-time VM snapshots |
-| `VirtualMachineClass` | `vsphere_virtual_machine_class` | VM classes for Supervisor clusters |
+| Kind | API Group | Terraform Resource | Scope |
+|------|-----------|-------------------|-------|
+| `VirtualMachine` | `virtualmachine.vspherevm.stuttgart-things.com` | `vsphere_virtual_machine` | Cluster + Namespaced |
+| `MachineSnapshot` | `virtual.vspherevm.stuttgart-things.com` | `vsphere_virtual_machine_snapshot` | Cluster + Namespaced |
+| `MachineClass` | `virtual.vspherevm.stuttgart-things.com` | `vsphere_virtual_machine_class` | Cluster + Namespaced |
 
-## Getting Started
+Namespaced variants use `*.vspherevm.m.stuttgart-things.com` API groups.
 
-See [docs/](docs/) for full documentation.
+## Install
 
-## Developing
+```yaml
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: xplane-provider-vspherevm
+spec:
+  package: ghcr.io/stuttgart-things/xplane-provider-vspherevm-xpkg:v0.2.1
+```
 
-Run code-generation pipeline:
+## Configure Credentials
+
+Create a Secret with vSphere credentials:
+
+```bash
+kubectl create secret generic vsphere-creds -n crossplane-system \
+  --from-literal=credentials='{"user":"administrator@vsphere.local","password":"...","server":"vcenter.example.com","allow_unverified_ssl":"true"}'
+```
+
+Apply a ProviderConfig:
+
+```yaml
+apiVersion: vspherevm.stuttgart-things.com/v1beta1
+kind: ProviderConfig
+metadata:
+  name: default
+spec:
+  credentials:
+    source: Secret
+    secretRef:
+      name: vsphere-creds
+      namespace: crossplane-system
+      key: credentials
+```
+
+## Example: Create a VM
+
+```yaml
+apiVersion: virtualmachine.vspherevm.stuttgart-things.com/v1alpha1
+kind: VirtualMachine
+metadata:
+  name: my-vm
+spec:
+  forProvider:
+    name: my-crossplane-vm
+    resourcePoolId: "${RESOURCE_POOL_ID}"
+    datastoreId: "${DATASTORE_ID}"
+    numCpus: 2
+    memory: 4096
+    guestId: ubuntu64Guest
+    networkInterface:
+      - networkId: "${NETWORK_ID}"
+    disk:
+      - size: 40
+        thinProvisioned: true
+  providerConfigRef:
+    name: default
+```
+
+## Documentation
+
+- [Overview](docs/index.md) -- features, architecture, credential mapping
+- [Development](docs/dev.md) -- code generation, prerequisites, gotchas
+- [Deployment](docs/deployment.md) -- container image, xpkg, local dev
+- [CI/CD](docs/cicd.md) -- GitHub Actions workflows, semantic-release
+- [Testing](docs/testing.md) -- Kind cluster, e2e tests
+
+## Development
+
+Run code generation:
 ```console
 go run cmd/generator/main.go "$PWD"
 ```
 
-Run against a Kubernetes cluster:
-
+Build:
 ```console
-make run
-```
-
-Build, push, and install:
-
-```console
-make all
-```
-
-Build binary:
-
-```console
-make build
+go build ./...
 ```
 
 ## Report a Bug
 
-For filing bugs, suggesting improvements, or requesting new features, please
-open an [issue](https://github.com/stuttgart-things/xplane-provider-vspherevm/issues).
+Open an [issue](https://github.com/stuttgart-things/xplane-provider-vspherevm/issues).

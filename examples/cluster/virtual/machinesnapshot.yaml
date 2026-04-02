@@ -1,0 +1,13 @@
+apiVersion: virtual.vspherevm.stuttgart-things.com/v1alpha1
+kind: MachineSnapshot
+metadata:
+  name: example-snapshot
+spec:
+  forProvider:
+    virtualMachineUuid: ${VM_UUID}
+    snapshotName: before-upgrade
+    description: Snapshot before OS upgrade
+    memory: true
+    quiesce: true
+  providerConfigRef:
+    name: default
