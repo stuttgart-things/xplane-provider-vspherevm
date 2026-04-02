@@ -1,0 +1,26 @@
+---
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: xplane-provider-vspherevm
+  description: Crossplane Provider for vSphere Virtual Machines, built with Upjet from terraform-provider-vsphere
+  annotations:
+    github.com/project-slug: stuttgart-things/xplane-provider-vspherevm
+    backstage.io/techdocs-ref: url:https://github.com/stuttgart-things/xplane-provider-vspherevm/tree/main
+    backstage.io/source-location: url:https://github.com/stuttgart-things/xplane-provider-vspherevm
+  tags:
+    - crossplane
+    - provider
+    - vsphere
+    - upjet
+    - golang
+    - virtual-machine
+  links:
+    - url: https://github.com/stuttgart-things/xplane-provider-vspherevm
+      title: GitHub Repository
+      icon: github
+spec:
+  type: service
+  lifecycle: experimental
+  owner: platform-team
+  system: crossplane
