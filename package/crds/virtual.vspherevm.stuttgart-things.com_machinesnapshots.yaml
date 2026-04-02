@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.19.0
+    controller-gen.kubebuilder.io/version: v0.20.1
   name: machinesnapshots.virtual.vspherevm.stuttgart-things.com
 spec:
   group: virtual.vspherevm.stuttgart-things.com
@@ -34,8 +34,8 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: MachineSnapshot is the Schema for the MachineSnapshots API. <no
-          value>
+        description: MachineSnapshot is the Schema for the MachineSnapshots API. Manages
+          a VMware vSphere virtual machine snapshot resource.
         properties:
           apiVersion:
             description: |-
@@ -76,6 +76,7 @@ spec:
                   consolidate:
                     type: boolean
                   description:
+                    description: A description for the snapshot.
                     type: string
                   memory:
                     type: boolean
@@ -84,9 +85,87 @@ spec:
                   removeChildren:
                     type: boolean
                   snapshotName:
+                    description: The name of the snapshot.
                     type: string
                   virtualMachineUuid:
+                    description: The virtual machine UUID.
                     type: string
+                  virtualMachineUuidRef:
+                    description: Reference to a VirtualMachine in virtualmachine to
+                      populate virtualMachineUuid.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  virtualMachineUuidSelector:
+                    description: Selector for a VirtualMachine in virtualmachine to
+                      populate virtualMachineUuid.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                 type: object
               initProvider:
                 description: |-
@@ -104,6 +183,7 @@ spec:
                   consolidate:
                     type: boolean
                   description:
+                    description: A description for the snapshot.
                     type: string
                   memory:
                     type: boolean
@@ -112,9 +192,87 @@ spec:
                   removeChildren:
                     type: boolean
                   snapshotName:
+                    description: The name of the snapshot.
                     type: string
                   virtualMachineUuid:
+                    description: The virtual machine UUID.
                     type: string
+                  virtualMachineUuidRef:
+                    description: Reference to a VirtualMachine in virtualmachine to
+                      populate virtualMachineUuid.
+                    properties:
+                      name:
+                        description: Name of the referenced object.
+                        type: string
+                      policy:
+                        description: Policies for referencing.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    required:
+                    - name
+                    type: object
+                  virtualMachineUuidSelector:
+                    description: Selector for a VirtualMachine in virtualmachine to
+                      populate virtualMachineUuid.
+                    properties:
+                      matchControllerRef:
+                        description: |-
+                          MatchControllerRef ensures an object with the same controller reference
+                          as the selecting object is selected.
+                        type: boolean
+                      matchLabels:
+                        additionalProperties:
+                          type: string
+                        description: MatchLabels ensures an object with matching labels
+                          is selected.
+                        type: object
+                      policy:
+                        description: Policies for selection.
+                        properties:
+                          resolution:
+                            default: Required
+                            description: |-
+                              Resolution specifies whether resolution of this reference is required.
+                              The default is 'Required', which means the reconcile will fail if the
+                              reference cannot be resolved. 'Optional' means this reference will be
+                              a no-op if it cannot be resolved.
+                            enum:
+                            - Required
+                            - Optional
+                            type: string
+                          resolve:
+                            description: |-
+                              Resolve specifies when this reference should be resolved. The default
+                              is 'IfNotPresent', which will attempt to resolve the reference only when
+                              the corresponding field is not present. Use 'Always' to resolve the
+                              reference on every reconcile.
+                            enum:
+                            - Always
+                            - IfNotPresent
+                            type: string
+                        type: object
+                    type: object
                 type: object
               managementPolicies:
                 default:
@@ -219,10 +377,6 @@ spec:
               rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
                 || ''Update'' in self.managementPolicies) || has(self.forProvider.snapshotName)
                 || (has(self.initProvider) && has(self.initProvider.snapshotName))'
-            - message: spec.forProvider.virtualMachineUuid is a required parameter
-              rule: '!(''*'' in self.managementPolicies || ''Create'' in self.managementPolicies
-                || ''Update'' in self.managementPolicies) || has(self.forProvider.virtualMachineUuid)
-                || (has(self.initProvider) && has(self.initProvider.virtualMachineUuid))'
           status:
             description: MachineSnapshotStatus defines the observed state of MachineSnapshot.
             properties:
@@ -231,6 +385,7 @@ spec:
                   consolidate:
                     type: boolean
                   description:
+                    description: A description for the snapshot.
                     type: string
                   id:
                     type: string
@@ -241,8 +396,10 @@ spec:
                   removeChildren:
                     type: boolean
                   snapshotName:
+                    description: The name of the snapshot.
                     type: string
                   virtualMachineUuid:
+                    description: The virtual machine UUID.
                     type: string
                 type: object
               conditions:

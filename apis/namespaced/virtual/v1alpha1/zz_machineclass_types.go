@@ -20,14 +20,17 @@ type MachineClassInitParameters struct {
 	CPUReservation *float64 `json:"cpuReservation,omitempty" tf:"cpu_reservation,omitempty"`
 
 	// The number of CPUs.
+	// The number of CPUs.
 	Cpus *float64 `json:"cpus,omitempty" tf:"cpus,omitempty"`
 
+	// The amount of memory in MB.
 	// The amount of memory (in MB).
 	Memory *float64 `json:"memory,omitempty" tf:"memory,omitempty"`
 
 	// The percentage of the available memory capacity which will be reserved.
 	MemoryReservation *float64 `json:"memoryReservation,omitempty" tf:"memory_reservation,omitempty"`
 
+	// The name of the virtual machine class.
 	// The name of the virtual machine class.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
@@ -41,16 +44,19 @@ type MachineClassObservation struct {
 	CPUReservation *float64 `json:"cpuReservation,omitempty" tf:"cpu_reservation,omitempty"`
 
 	// The number of CPUs.
+	// The number of CPUs.
 	Cpus *float64 `json:"cpus,omitempty" tf:"cpus,omitempty"`
 
 	ID *string `json:"id,omitempty" tf:"id,omitempty"`
 
+	// The amount of memory in MB.
 	// The amount of memory (in MB).
 	Memory *float64 `json:"memory,omitempty" tf:"memory,omitempty"`
 
 	// The percentage of the available memory capacity which will be reserved.
 	MemoryReservation *float64 `json:"memoryReservation,omitempty" tf:"memory_reservation,omitempty"`
 
+	// The name of the virtual machine class.
 	// The name of the virtual machine class.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
@@ -65,9 +71,11 @@ type MachineClassParameters struct {
 	CPUReservation *float64 `json:"cpuReservation,omitempty" tf:"cpu_reservation,omitempty"`
 
 	// The number of CPUs.
+	// The number of CPUs.
 	// +kubebuilder:validation:Optional
 	Cpus *float64 `json:"cpus,omitempty" tf:"cpus,omitempty"`
 
+	// The amount of memory in MB.
 	// The amount of memory (in MB).
 	// +kubebuilder:validation:Optional
 	Memory *float64 `json:"memory,omitempty" tf:"memory,omitempty"`
@@ -76,6 +84,7 @@ type MachineClassParameters struct {
 	// +kubebuilder:validation:Optional
 	MemoryReservation *float64 `json:"memoryReservation,omitempty" tf:"memory_reservation,omitempty"`
 
+	// The name of the virtual machine class.
 	// The name of the virtual machine class.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -112,7 +121,7 @@ type MachineClassStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// MachineClass is the Schema for the MachineClasss API. <no value>
+// MachineClass is the Schema for the MachineClasss API. Manages a VMware vSphere virtual machine class resource for Supervisor clusters.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"

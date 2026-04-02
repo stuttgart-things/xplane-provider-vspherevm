@@ -3,7 +3,7 @@ apiVersion: apiextensions.k8s.io/v1
 kind: CustomResourceDefinition
 metadata:
   annotations:
-    controller-gen.kubebuilder.io/version: v0.19.0
+    controller-gen.kubebuilder.io/version: v0.20.1
   name: machineclasses.virtual.vspherevm.stuttgart-things.com
 spec:
   group: virtual.vspherevm.stuttgart-things.com
@@ -34,7 +34,8 @@ spec:
     name: v1alpha1
     schema:
       openAPIV3Schema:
-        description: MachineClass is the Schema for the MachineClasss API. <no value>
+        description: MachineClass is the Schema for the MachineClasss API. Manages
+          a VMware vSphere virtual machine class resource for Supervisor clusters.
         properties:
           apiVersion:
             description: |-
@@ -77,17 +78,23 @@ spec:
                       will be reserved.
                     type: number
                   cpus:
-                    description: The number of CPUs.
+                    description: |-
+                      The number of CPUs.
+                      The number of CPUs.
                     type: number
                   memory:
-                    description: The amount of memory (in MB).
+                    description: |-
+                      The amount of memory in MB.
+                      The amount of memory (in MB).
                     type: number
                   memoryReservation:
                     description: The percentage of the available memory capacity which
                       will be reserved.
                     type: number
                   name:
-                    description: The name of the virtual machine class.
+                    description: |-
+                      The name of the virtual machine class.
+                      The name of the virtual machine class.
                     type: string
                   vgpuDevices:
                     description: A comma-separated list of GPU devices.
@@ -113,17 +120,23 @@ spec:
                       will be reserved.
                     type: number
                   cpus:
-                    description: The number of CPUs.
+                    description: |-
+                      The number of CPUs.
+                      The number of CPUs.
                     type: number
                   memory:
-                    description: The amount of memory (in MB).
+                    description: |-
+                      The amount of memory in MB.
+                      The amount of memory (in MB).
                     type: number
                   memoryReservation:
                     description: The percentage of the available memory capacity which
                       will be reserved.
                     type: number
                   name:
-                    description: The name of the virtual machine class.
+                    description: |-
+                      The name of the virtual machine class.
+                      The name of the virtual machine class.
                     type: string
                   vgpuDevices:
                     description: A comma-separated list of GPU devices.
@@ -240,19 +253,25 @@ spec:
                       will be reserved.
                     type: number
                   cpus:
-                    description: The number of CPUs.
+                    description: |-
+                      The number of CPUs.
+                      The number of CPUs.
                     type: number
                   id:
                     type: string
                   memory:
-                    description: The amount of memory (in MB).
+                    description: |-
+                      The amount of memory in MB.
+                      The amount of memory (in MB).
                     type: number
                   memoryReservation:
                     description: The percentage of the available memory capacity which
                       will be reserved.
                     type: number
                   name:
-                    description: The name of the virtual machine class.
+                    description: |-
+                      The name of the virtual machine class.
+                      The name of the virtual machine class.
                     type: string
                   vgpuDevices:
                     description: A comma-separated list of GPU devices.

@@ -19,6 +19,7 @@ type CdromInitParameters struct {
 	// Indicates whether the device should be mapped to a remote client device
 	ClientDevice *bool `json:"clientDevice,omitempty" tf:"client_device,omitempty"`
 
+	// The managed object reference ID of the datastore.
 	// The datastore ID the ISO is located on.
 	DatastoreID *string `json:"datastoreId,omitempty" tf:"datastore_id,omitempty"`
 
@@ -31,6 +32,7 @@ type CdromObservation struct {
 	// Indicates whether the device should be mapped to a remote client device
 	ClientDevice *bool `json:"clientDevice,omitempty" tf:"client_device,omitempty"`
 
+	// The managed object reference ID of the datastore.
 	// The datastore ID the ISO is located on.
 	DatastoreID *string `json:"datastoreId,omitempty" tf:"datastore_id,omitempty"`
 
@@ -50,6 +52,7 @@ type CdromParameters struct {
 	// +kubebuilder:validation:Optional
 	ClientDevice *bool `json:"clientDevice,omitempty" tf:"client_device,omitempty"`
 
+	// The managed object reference ID of the datastore.
 	// The datastore ID the ISO is located on.
 	// +kubebuilder:validation:Optional
 	DatastoreID *string `json:"datastoreId,omitempty" tf:"datastore_id,omitempty"`
@@ -277,6 +280,7 @@ type DiskInitParameters struct {
 	// The type of controller the disk should be connected to. Must be 'scsi', 'sata', 'nvme', or 'ide'.
 	ControllerType *string `json:"controllerType,omitempty" tf:"controller_type,omitempty"`
 
+	// The managed object reference ID of the datastore.
 	// The datastore ID for this virtual disk, if different than the virtual machine.
 	DatastoreID *string `json:"datastoreId,omitempty" tf:"datastore_id,omitempty"`
 
@@ -334,6 +338,7 @@ type DiskObservation struct {
 	// The type of controller the disk should be connected to. Must be 'scsi', 'sata', 'nvme', or 'ide'.
 	ControllerType *string `json:"controllerType,omitempty" tf:"controller_type,omitempty"`
 
+	// The managed object reference ID of the datastore.
 	// The datastore ID for this virtual disk, if different than the virtual machine.
 	DatastoreID *string `json:"datastoreId,omitempty" tf:"datastore_id,omitempty"`
 
@@ -402,6 +407,7 @@ type DiskParameters struct {
 	// +kubebuilder:validation:Optional
 	ControllerType *string `json:"controllerType,omitempty" tf:"controller_type,omitempty"`
 
+	// The managed object reference ID of the datastore.
 	// The datastore ID for this virtual disk, if different than the virtual machine.
 	// +kubebuilder:validation:Optional
 	DatastoreID *string `json:"datastoreId,omitempty" tf:"datastore_id,omitempty"`
@@ -472,6 +478,7 @@ type LinuxOptionsInitParameters struct {
 	// The domain name for this virtual machine.
 	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
 
+	// The name of the virtual machine.
 	// The hostname for this virtual machine.
 	HostName *string `json:"hostName,omitempty" tf:"host_name,omitempty"`
 
@@ -490,6 +497,7 @@ type LinuxOptionsObservation struct {
 	// The domain name for this virtual machine.
 	Domain *string `json:"domain,omitempty" tf:"domain,omitempty"`
 
+	// The name of the virtual machine.
 	// The hostname for this virtual machine.
 	HostName *string `json:"hostName,omitempty" tf:"host_name,omitempty"`
 
@@ -506,6 +514,7 @@ type LinuxOptionsParameters struct {
 	// +kubebuilder:validation:Optional
 	Domain *string `json:"domain" tf:"domain,omitempty"`
 
+	// The name of the virtual machine.
 	// The hostname for this virtual machine.
 	// +kubebuilder:validation:Optional
 	HostName *string `json:"hostName" tf:"host_name,omitempty"`
@@ -718,6 +727,7 @@ type VappParameters struct {
 
 type VirtualMachineInitParameters struct {
 
+	// The name of the virtual machine.
 	// The guest name for the operating system when guest_id is otherGuest or otherGuest64.
 	AlternateGuestName *string `json:"alternateGuestName,omitempty" tf:"alternate_guest_name,omitempty"`
 
@@ -770,6 +780,7 @@ type VirtualMachineInitParameters struct {
 	// The ID of a datastore cluster to put the virtual machine in.
 	DatastoreClusterID *string `json:"datastoreClusterId,omitempty" tf:"datastore_cluster_id,omitempty"`
 
+	// The managed object reference ID of the datastore.
 	// The ID of the virtual machine's datastore. The virtual machine configuration is placed here, along with any virtual disks that are created without datastores.
 	DatastoreID *string `json:"datastoreId,omitempty" tf:"datastore_id,omitempty"`
 
@@ -804,6 +815,7 @@ type VirtualMachineInitParameters struct {
 	// Set to true to force power-off a virtual machine if a graceful guest shutdown failed for a necessary operation.
 	ForcePowerOff *bool `json:"forcePowerOff,omitempty" tf:"force_power_off,omitempty"`
 
+	// The guest ID for the OS type. Default: otherGuest64.
 	// The guest ID for the operating system.
 	GuestID *string `json:"guestId,omitempty" tf:"guest_id,omitempty"`
 
@@ -825,6 +837,7 @@ type VirtualMachineInitParameters struct {
 	// Controls the scheduling delay of the virtual machine. Use a higher sensitivity for applications that require lower latency, such as VOIP, media player applications, or applications that require frequent access to mouse or keyboard devices. Can be one of low, normal, medium, or high.
 	LatencySensitivity *string `json:"latencySensitivity,omitempty" tf:"latency_sensitivity,omitempty"`
 
+	// The memory size in MB. Default: 1024.
 	// The size of the virtual machine's memory, in MB.
 	Memory *float64 `json:"memory,omitempty" tf:"memory,omitempty"`
 
@@ -849,6 +862,7 @@ type VirtualMachineInitParameters struct {
 	// The amount of time, in minutes, to wait for a vMotion operation to complete before failing.
 	MigrateWaitTimeout *float64 `json:"migrateWaitTimeout,omitempty" tf:"migrate_wait_timeout,omitempty"`
 
+	// The name of the virtual machine.
 	// The name of this virtual machine.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
@@ -861,6 +875,7 @@ type VirtualMachineInitParameters struct {
 	// The number of cores to distribute amongst the CPUs in this virtual machine. If specified, the value supplied to num_cpus must be evenly divisible by this value.
 	NumCoresPerSocket *float64 `json:"numCoresPerSocket,omitempty" tf:"num_cores_per_socket,omitempty"`
 
+	// The total number of virtual processor cores. Default: 1.
 	// The number of virtual processors to assign to this virtual machine.
 	NumCpus *float64 `json:"numCpus,omitempty" tf:"num_cpus,omitempty"`
 
@@ -880,6 +895,7 @@ type VirtualMachineInitParameters struct {
 	// Triggers replacement of resource whenever it changes.
 	ReplaceTrigger *string `json:"replaceTrigger,omitempty" tf:"replace_trigger,omitempty"`
 
+	// The managed object reference ID of the resource pool.
 	// The ID of a resource pool to put the virtual machine in.
 	ResourcePoolID *string `json:"resourcePoolId,omitempty" tf:"resource_pool_id,omitempty"`
 
@@ -1071,6 +1087,7 @@ type VirtualMachineNetworkInterfaceParameters struct {
 
 type VirtualMachineObservation struct {
 
+	// The name of the virtual machine.
 	// The guest name for the operating system when guest_id is otherGuest or otherGuest64.
 	AlternateGuestName *string `json:"alternateGuestName,omitempty" tf:"alternate_guest_name,omitempty"`
 
@@ -1126,6 +1143,7 @@ type VirtualMachineObservation struct {
 	// The ID of a datastore cluster to put the virtual machine in.
 	DatastoreClusterID *string `json:"datastoreClusterId,omitempty" tf:"datastore_cluster_id,omitempty"`
 
+	// The managed object reference ID of the datastore.
 	// The ID of the virtual machine's datastore. The virtual machine configuration is placed here, along with any virtual disks that are created without datastores.
 	DatastoreID *string `json:"datastoreId,omitempty" tf:"datastore_id,omitempty"`
 
@@ -1162,6 +1180,7 @@ type VirtualMachineObservation struct {
 	// Set to true to force power-off a virtual machine if a graceful guest shutdown failed for a necessary operation.
 	ForcePowerOff *bool `json:"forcePowerOff,omitempty" tf:"force_power_off,omitempty"`
 
+	// The guest ID for the OS type. Default: otherGuest64.
 	// The guest ID for the operating system.
 	GuestID *string `json:"guestId,omitempty" tf:"guest_id,omitempty"`
 
@@ -1191,6 +1210,7 @@ type VirtualMachineObservation struct {
 	// Controls the scheduling delay of the virtual machine. Use a higher sensitivity for applications that require lower latency, such as VOIP, media player applications, or applications that require frequent access to mouse or keyboard devices. Can be one of low, normal, medium, or high.
 	LatencySensitivity *string `json:"latencySensitivity,omitempty" tf:"latency_sensitivity,omitempty"`
 
+	// The memory size in MB. Default: 1024.
 	// The size of the virtual machine's memory, in MB.
 	Memory *float64 `json:"memory,omitempty" tf:"memory,omitempty"`
 
@@ -1218,6 +1238,7 @@ type VirtualMachineObservation struct {
 	// The machine object ID from VMware vSphere.
 	Moid *string `json:"moid,omitempty" tf:"moid,omitempty"`
 
+	// The name of the virtual machine.
 	// The name of this virtual machine.
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
 
@@ -1230,6 +1251,7 @@ type VirtualMachineObservation struct {
 	// The number of cores to distribute amongst the CPUs in this virtual machine. If specified, the value supplied to num_cpus must be evenly divisible by this value.
 	NumCoresPerSocket *float64 `json:"numCoresPerSocket,omitempty" tf:"num_cores_per_socket,omitempty"`
 
+	// The total number of virtual processor cores. Default: 1.
 	// The number of virtual processors to assign to this virtual machine.
 	NumCpus *float64 `json:"numCpus,omitempty" tf:"num_cpus,omitempty"`
 
@@ -1254,6 +1276,7 @@ type VirtualMachineObservation struct {
 	// Triggers replacement of resource whenever it changes.
 	ReplaceTrigger *string `json:"replaceTrigger,omitempty" tf:"replace_trigger,omitempty"`
 
+	// The managed object reference ID of the resource pool.
 	// The ID of a resource pool to put the virtual machine in.
 	ResourcePoolID *string `json:"resourcePoolId,omitempty" tf:"resource_pool_id,omitempty"`
 
@@ -1342,6 +1365,7 @@ type VirtualMachineObservation struct {
 
 type VirtualMachineParameters struct {
 
+	// The name of the virtual machine.
 	// The guest name for the operating system when guest_id is otherGuest or otherGuest64.
 	// +kubebuilder:validation:Optional
 	AlternateGuestName *string `json:"alternateGuestName,omitempty" tf:"alternate_guest_name,omitempty"`
@@ -1411,6 +1435,7 @@ type VirtualMachineParameters struct {
 	// +kubebuilder:validation:Optional
 	DatastoreClusterID *string `json:"datastoreClusterId,omitempty" tf:"datastore_cluster_id,omitempty"`
 
+	// The managed object reference ID of the datastore.
 	// The ID of the virtual machine's datastore. The virtual machine configuration is placed here, along with any virtual disks that are created without datastores.
 	// +kubebuilder:validation:Optional
 	DatastoreID *string `json:"datastoreId,omitempty" tf:"datastore_id,omitempty"`
@@ -1456,6 +1481,7 @@ type VirtualMachineParameters struct {
 	// +kubebuilder:validation:Optional
 	ForcePowerOff *bool `json:"forcePowerOff,omitempty" tf:"force_power_off,omitempty"`
 
+	// The guest ID for the OS type. Default: otherGuest64.
 	// The guest ID for the operating system.
 	// +kubebuilder:validation:Optional
 	GuestID *string `json:"guestId,omitempty" tf:"guest_id,omitempty"`
@@ -1484,6 +1510,7 @@ type VirtualMachineParameters struct {
 	// +kubebuilder:validation:Optional
 	LatencySensitivity *string `json:"latencySensitivity,omitempty" tf:"latency_sensitivity,omitempty"`
 
+	// The memory size in MB. Default: 1024.
 	// The size of the virtual machine's memory, in MB.
 	// +kubebuilder:validation:Optional
 	Memory *float64 `json:"memory,omitempty" tf:"memory,omitempty"`
@@ -1516,6 +1543,7 @@ type VirtualMachineParameters struct {
 	// +kubebuilder:validation:Optional
 	MigrateWaitTimeout *float64 `json:"migrateWaitTimeout,omitempty" tf:"migrate_wait_timeout,omitempty"`
 
+	// The name of the virtual machine.
 	// The name of this virtual machine.
 	// +kubebuilder:validation:Optional
 	Name *string `json:"name,omitempty" tf:"name,omitempty"`
@@ -1532,6 +1560,7 @@ type VirtualMachineParameters struct {
 	// +kubebuilder:validation:Optional
 	NumCoresPerSocket *float64 `json:"numCoresPerSocket,omitempty" tf:"num_cores_per_socket,omitempty"`
 
+	// The total number of virtual processor cores. Default: 1.
 	// The number of virtual processors to assign to this virtual machine.
 	// +kubebuilder:validation:Optional
 	NumCpus *float64 `json:"numCpus,omitempty" tf:"num_cpus,omitempty"`
@@ -1557,6 +1586,7 @@ type VirtualMachineParameters struct {
 	// +kubebuilder:validation:Optional
 	ReplaceTrigger *string `json:"replaceTrigger,omitempty" tf:"replace_trigger,omitempty"`
 
+	// The managed object reference ID of the resource pool.
 	// The ID of a resource pool to put the virtual machine in.
 	// +kubebuilder:validation:Optional
 	ResourcePoolID *string `json:"resourcePoolId,omitempty" tf:"resource_pool_id,omitempty"`
@@ -1685,6 +1715,7 @@ type WindowsOptionsInitParameters struct {
 	// Specifies how many times the VM should auto-logon the Administrator account when auto_logon is true.
 	AutoLogonCount *float64 `json:"autoLogonCount,omitempty" tf:"auto_logon_count,omitempty"`
 
+	// The name of the virtual machine.
 	// The host name for this virtual machine.
 	ComputerName *string `json:"computerName,omitempty" tf:"computer_name,omitempty"`
 
@@ -1697,12 +1728,14 @@ type WindowsOptionsInitParameters struct {
 	// The MachineObjectOU which specifies the full LDAP path name of the OU to which the virtual machine belongs.
 	DomainOu *string `json:"domainOu,omitempty" tf:"domain_ou,omitempty"`
 
+	// The name of the virtual machine.
 	// The full name of the user of this virtual machine.
 	FullName *string `json:"fullName,omitempty" tf:"full_name,omitempty"`
 
 	// The domain that the virtual machine should join.
 	JoinDomain *string `json:"joinDomain,omitempty" tf:"join_domain,omitempty"`
 
+	// The name of the virtual machine.
 	// The organization name this virtual machine is being installed for.
 	OrganizationName *string `json:"organizationName,omitempty" tf:"organization_name,omitempty"`
 
@@ -1727,6 +1760,7 @@ type WindowsOptionsObservation struct {
 	// Specifies how many times the VM should auto-logon the Administrator account when auto_logon is true.
 	AutoLogonCount *float64 `json:"autoLogonCount,omitempty" tf:"auto_logon_count,omitempty"`
 
+	// The name of the virtual machine.
 	// The host name for this virtual machine.
 	ComputerName *string `json:"computerName,omitempty" tf:"computer_name,omitempty"`
 
@@ -1736,12 +1770,14 @@ type WindowsOptionsObservation struct {
 	// The MachineObjectOU which specifies the full LDAP path name of the OU to which the virtual machine belongs.
 	DomainOu *string `json:"domainOu,omitempty" tf:"domain_ou,omitempty"`
 
+	// The name of the virtual machine.
 	// The full name of the user of this virtual machine.
 	FullName *string `json:"fullName,omitempty" tf:"full_name,omitempty"`
 
 	// The domain that the virtual machine should join.
 	JoinDomain *string `json:"joinDomain,omitempty" tf:"join_domain,omitempty"`
 
+	// The name of the virtual machine.
 	// The organization name this virtual machine is being installed for.
 	OrganizationName *string `json:"organizationName,omitempty" tf:"organization_name,omitempty"`
 
@@ -1769,6 +1805,7 @@ type WindowsOptionsParameters struct {
 	// +kubebuilder:validation:Optional
 	AutoLogonCount *float64 `json:"autoLogonCount,omitempty" tf:"auto_logon_count,omitempty"`
 
+	// The name of the virtual machine.
 	// The host name for this virtual machine.
 	// +kubebuilder:validation:Optional
 	ComputerName *string `json:"computerName" tf:"computer_name,omitempty"`
@@ -1785,6 +1822,7 @@ type WindowsOptionsParameters struct {
 	// +kubebuilder:validation:Optional
 	DomainOu *string `json:"domainOu,omitempty" tf:"domain_ou,omitempty"`
 
+	// The name of the virtual machine.
 	// The full name of the user of this virtual machine.
 	// +kubebuilder:validation:Optional
 	FullName *string `json:"fullName,omitempty" tf:"full_name,omitempty"`
@@ -1793,6 +1831,7 @@ type WindowsOptionsParameters struct {
 	// +kubebuilder:validation:Optional
 	JoinDomain *string `json:"joinDomain,omitempty" tf:"join_domain,omitempty"`
 
+	// The name of the virtual machine.
 	// The organization name this virtual machine is being installed for.
 	// +kubebuilder:validation:Optional
 	OrganizationName *string `json:"organizationName,omitempty" tf:"organization_name,omitempty"`
@@ -1841,7 +1880,7 @@ type VirtualMachineStatus struct {
 // +kubebuilder:subresource:status
 // +kubebuilder:storageversion
 
-// VirtualMachine is the Schema for the VirtualMachines API. <no value>
+// VirtualMachine is the Schema for the VirtualMachines API. Manages a VMware vSphere virtual machine resource.
 // +kubebuilder:printcolumn:name="SYNCED",type="string",JSONPath=".status.conditions[?(@.type=='Synced')].status"
 // +kubebuilder:printcolumn:name="READY",type="string",JSONPath=".status.conditions[?(@.type=='Ready')].status"
 // +kubebuilder:printcolumn:name="EXTERNAL-NAME",type="string",JSONPath=".metadata.annotations.crossplane\\.io/external-name"
