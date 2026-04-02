@@ -1,0 +1,19 @@
+apiVersion: virtualmachine.vspherevm.stuttgart-things.com/v1alpha1
+kind: VirtualMachine
+metadata:
+  name: example-vm
+spec:
+  forProvider:
+    name: crossplane-example-vm
+    resourcePoolId: ${RESOURCE_POOL_ID}
+    datastoreId: ${DATASTORE_ID}
+    numCpus: 2
+    memory: 4096
+    guestId: ubuntu64Guest
+    networkInterface:
+      - networkId: ${NETWORK_ID}
+    disk:
+      - size: 40
+        thinProvisioned: true
+  providerConfigRef:
+    name: default
