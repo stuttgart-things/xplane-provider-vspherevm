@@ -1,0 +1,10 @@
+site_name: xplane-provider-vspherevm
+site_description: Crossplane Provider for vSphere Virtual Machines, built with Upjet from terraform-provider-vsphere
+nav:
+  - Home: index.md
+  - Development: dev.md
+  - Deployment: deployment.md
+  - CI/CD: cicd.md
+  - Testing: testing.md
+plugins:
+  - techdocs-core
