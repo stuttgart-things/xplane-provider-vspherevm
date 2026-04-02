@@ -1,22 +1,34 @@
+# Stage 1: Build the provider binary
+FROM golang:1.24-alpine AS builder
+
+WORKDIR /app
+COPY go.mod go.sum ./
+RUN go mod download
+COPY . .
+RUN CGO_ENABLED=0 go build -o /provider ./cmd/provider
+
+# Stage 2: Runtime image with Terraform CLI and provider plugin
 FROM alpine:3.23.2
+
 RUN apk --no-cache add ca-certificates bash
 
-ARG TARGETOS
-ARG TARGETARCH
+ARG TARGETOS=linux
+ARG TARGETARCH=amd64
 
-ADD "bin/${TARGETOS}_${TARGETARCH}/provider" /usr/local/bin/provider
+# Copy provider binary from builder stage
+COPY --from=builder /provider /usr/local/bin/provider
 
 ENV USER_ID=65532
 
 # Setup Terraform environment
 
 ## Provider-dependent configuration
-ARG TERRAFORM_VERSION
-ARG TERRAFORM_PROVIDER_SOURCE
-ARG TERRAFORM_PROVIDER_VERSION
-ARG TERRAFORM_PROVIDER_DOWNLOAD_NAME
-ARG TERRAFORM_NATIVE_PROVIDER_BINARY
-ARG TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX
+ARG TERRAFORM_VERSION=1.5.7
+ARG TERRAFORM_PROVIDER_SOURCE=vmware/vsphere
+ARG TERRAFORM_PROVIDER_VERSION=2.15.0
+ARG TERRAFORM_PROVIDER_DOWNLOAD_NAME=terraform-provider-vsphere
+ARG TERRAFORM_NATIVE_PROVIDER_BINARY=terraform-provider-vsphere_v2.15.0_x5
+ARG TERRAFORM_PROVIDER_DOWNLOAD_URL_PREFIX=https://releases.hashicorp.com/terraform-provider-vsphere
 
 ## End of - Provider-dependent configuration
 
