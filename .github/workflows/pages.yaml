@@ -11,6 +11,6 @@ jobs:
     if: >-
       github.event_name == 'workflow_dispatch' ||
       github.event.workflow_run.conclusion == 'success'
-    uses: stuttgart-things/github-workflow-templates/.github/workflows/call-deploy-pages.yaml@43000318e0e67e6d0b5de76fe29ebec65a787bc3 # main
+    uses: stuttgart-things/github-workflow-templates/.github/workflows/call-deploy-pages.yaml@f7442f184bebda3b69a98cf8593989f1f8e78ad1 # main
     with:
       runs-on: ubuntu-latest
