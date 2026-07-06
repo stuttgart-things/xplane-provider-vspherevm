@@ -13,7 +13,7 @@ jobs:
     if: >-
       github.event_name == 'workflow_dispatch' ||
       github.event.workflow_run.conclusion == 'success'
-    uses: stuttgart-things/github-workflow-templates/.github/workflows/call-go-release.yaml@ac728484cefce72ff49281ccdea321d1dbe9f766 # main
+    uses: stuttgart-things/github-workflow-templates/.github/workflows/call-go-release.yaml@60e38f7da103157885110c3f4d56bd8ca5e50ecb # main
     with:
       runs-on: ubuntu-latest
       stage-image: false
